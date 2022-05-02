@@ -1,9 +1,22 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const messageSchema = new Schema({
+    username: String,
+    body: String
+});
+const Message = mongoose.model('Message', messageSchema);
+
+
 // Functies voor de GET requests
 const getAll = (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "messages": []
+    Message.find( (err, docs) => {
+        if(!err) {
+            res.json({
+                "status": "success",
+                "data": {
+                    "messages": docs
+                }
+            });
         }
     });
 }
@@ -19,10 +32,17 @@ const getById = (req, res) => {
 
 // Functies voor de POST requests
 const create = (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "message": {"username": "Jef", "body": "Text message POSTED"} 
+    let m = new Message();
+    m.username = "Jef";
+    m.body = "Text message created";
+    m.save( (err, doc) => {
+        if(!err) {
+            res.json({
+                "status": "success",
+                "data": {
+                    "message": doc
+                }
+            });
         }
     });
 }
