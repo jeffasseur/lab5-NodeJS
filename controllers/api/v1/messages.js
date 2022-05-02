@@ -42,6 +42,27 @@ const getById = (req, res) => {
     });
 }
 
+// const getByUsername = (req, res) => {
+//     Message.find({"username": req.params.username}, (err, doc) => {
+//         if(err) {
+//             res.json({
+//                 "status": "error",
+//                 "message": err
+//             });
+//         }
+
+//         if(!err) {
+//             res.json({
+//                 "status": "success",
+//                 "message": "Messages found by username",
+//                 "data": {
+//                     "message": doc
+//                 }
+//             });
+//         }
+//     });
+// }
+
 // Functies voor de POST requests
 const create = (req, res) => {
     console.log(req.body);
@@ -124,6 +145,7 @@ const update = (req, res) => {
 
 module.exports.getAll = getAll;
 module.exports.getById = getById;
+// module.exports.getByUsername = getByUsername;
 module.exports.create = create;
 module.exports.remove = remove;
 module.exports.update = update;
