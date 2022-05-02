@@ -1,15 +1,15 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const messageSchema = new Schema({
-    username: String,
-    body: {type: String, required: true}
-});
-const Message = mongoose.model('Message', messageSchema);
-
+const Message = require('../../../models/Message');
 
 // Functies voor de GET requests
 const getAll = (req, res) => {
     Message.find( (err, docs) => {
+        if(err) {
+            res.json({
+                status: 'error',
+                message: err
+            });
+        }
+
         if(!err) {
             res.json({
                 "status": "success",
@@ -22,19 +22,33 @@ const getAll = (req, res) => {
 }
 
 const getById = (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "message": {"username": "Jef ID", "body": "This is a test message"}
+    // console.log(req.params.id);
+    Message.find({"_id": req.params.id}, (err, doc) => {
+        if(err) {
+            res.json({
+                "status": "error",
+                "message": err
+            });
+        }
+
+        if(!err) {
+            res.json({
+                "status": "success",
+                "data": {
+                    "message": doc
+                }
+            });
         }
     });
 }
 
 // Functies voor de POST requests
 const create = (req, res) => {
+    console.log(req.body);
+
     let m = new Message();
-    m.username = "Jef";
-    //m.body = "Text message created";
+    m.username = req.body.username;
+    m.body = req.body.message;
     m.save( (err, doc) => {
         if(err) {
             res.json({
@@ -56,10 +70,21 @@ const create = (req, res) => {
 
 // Functies voor de DELETE requests
 const remove = (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "message": {"username": "Jef", "body": "Text message DELETED"} 
+    Message.deleteOne({"_id": req.params.id}, (err, doc) => {
+        if(err) {
+            res.json({
+                "status": "error",
+                "message": err
+            });
+        }
+
+        if(!err) {
+            res.json({
+                "status": "success",
+                "data": {
+                    "message": doc
+                }
+            });
         }
     });
 }
