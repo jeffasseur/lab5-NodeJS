@@ -5,8 +5,8 @@ const getAll = (req, res) => {
     Message.find( (err, docs) => {
         if(err) {
             res.json({
-                status: 'error',
-                message: err
+                "status": 'error',
+                "message": err
             });
         }
 
@@ -91,10 +91,30 @@ const remove = (req, res) => {
 
 // Functies voor de PUT requests
 const update = (req, res) => {
-    res.json({
-        "status": "success",
-        "data": {
-            "message": {"username": "Jef", "body": "Text message updated"}
+    // let response = {
+    //     "status": "success",
+    //     "message": "Message updated",
+    //     "data": {
+
+    //     }
+    // };
+    // res.json(response);
+
+    Message.updateOne( {"_id": req.params.id}, {$set: {"username": req.body.username, "message": req.body.message}}, (err, doc) => {
+        if(err) {
+            res.json({
+                "status": "error",
+                "message": err
+            })
+        }
+
+        if(!err) {
+            res.json({
+                "status": "success",
+                "data": {
+                    "message": doc
+                }
+            })
         }
     });
 }
