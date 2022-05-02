@@ -14,6 +14,7 @@ mongoose.connect(process.env.dbconn || config.get('Database.conn'), { useNewUrlP
 
 
 const app = express();
+const port = process.env.PORT || 3001;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
