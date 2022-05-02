@@ -3,15 +3,17 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+const config = require('config');
 
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let messagesRouter = require('./routes/api/v1/messages');
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://jeffasseur:fejfass@live-chat.ai5vp.mongodb.net/live-chat?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect(process.env.dbconn || config.get('Database.conn'), { useNewUrlParser: true });
 
-let app = express();
+
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

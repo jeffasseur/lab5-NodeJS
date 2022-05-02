@@ -1,0 +1,5 @@
+{
+    "Database": {
+        "conn": "mongodb+srv://jeffasseur:fejfass@live-chat.ai5vp.mongodb.net/live-chat?retryWrites=true&w=majority"
+    }
+}
