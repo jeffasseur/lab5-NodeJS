@@ -5,6 +5,8 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const config = require('config');
 
+const cors = require('cors');
+
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let messagesRouter = require('./routes/api/v1/messages');
@@ -14,6 +16,8 @@ mongoose.connect(process.env.dbconn || config.get('Database.conn'), { useNewUrlP
 
 
 const app = express();
+
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
